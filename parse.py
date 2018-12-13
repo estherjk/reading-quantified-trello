@@ -12,15 +12,28 @@ def get_created_action(card):
             return action
 
 
-def get_list_change_date(card, list_before, list_after):
+def get_date_created_in_list(card, list_name):
     """
-    Return the date of when a list change occurred.
+    Return the date a card was created in the specified list.
+    """
+    created_action = get_created_action(card)
+
+    if not created_action:
+        return
+
+    if created_action['data']['list']['name'] == list_name:
+        return created_action['date']
+
+
+def get_list_change_date(card, list_before_name, list_after_name):
+    """
+    Return the date of when a list changed from the specified before & after lists.
     """
     if not card.actions:
         return
 
     for action in card.actions:
-        if action['data']['listBefore']['name'] == list_before and action['data']['listAfter']['name'] == list_after:
+        if action['data']['listBefore']['name'] == list_before_name and action['data']['listAfter']['name'] == list_after_name:
             return action['date']
 
 
@@ -28,13 +41,7 @@ def get_date_started(card):
     """
     Return the date when a book (card) was started, i.e. moved to or created in the 'Reading' list
     """
-    # Check if the card was created in the Reading list
-    created_action = get_created_action(card)
-    date_started = None
-    if created_action['data']['list']['name'] == 'Reading':
-        date_started = created_action['date']
-
-    return date_started or \
+    return get_date_created_in_list(card, 'Reading') or \
         get_list_change_date(card, 'To Read', 'Reading') or \
         get_list_change_date(card, 'Backlog', 'Reading')
 
