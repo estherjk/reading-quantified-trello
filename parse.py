@@ -33,8 +33,9 @@ def get_list_change_date(card, list_before_name, list_after_name):
         return
 
     for action in card.actions:
-        if action['data']['listBefore']['name'] == list_before_name and action['data']['listAfter']['name'] == list_after_name:
-            return action['date']
+        if all(key in action['data'] for key in ['listBefore', 'listAfter']):
+            if action['data']['listBefore']['name'] == list_before_name and action['data']['listAfter']['name'] == list_after_name:
+                return action['date']
 
 
 def get_date_started(card):
