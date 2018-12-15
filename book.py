@@ -2,16 +2,20 @@ class Book(object):
     """
     Class representing a Book object.
     """
-    def __init__(self, title, date_started, date_finished, genres=[]):
+    def __init__(self, title, trello_id, date_started, date_finished, genres=[]):
         self.title = title
+        self.trello_id = trello_id
         self.date_started = date_started
         self.date_finished = date_finished
+
+        # This should be an array of trello label IDs
         self.genres = genres
         
 
     def to_json(self):
         return {
             'title': self.title,
+            'trello_id': self.trello_id,
             'date_started': self.date_started,
             'date_finished': self.date_finished,
             'genres': self.genres

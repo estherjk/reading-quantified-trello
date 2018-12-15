@@ -28,8 +28,10 @@ for card in cards_in_finished_list:
     print(card)
     book = Book(
         card.name,
+        card.id,
         parse.get_date_started(card),
-        parse.get_date_finished(card)
+        parse.get_date_finished(card),
+        genres=card.idLabels
     )
     response = book_endpoints.post_book(book)
     print(response)
