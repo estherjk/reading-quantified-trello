@@ -70,5 +70,8 @@ class GenreEndpoints(object):
     def __init__(self, client):
         self.client = client
 
+    def get_genres(self):
+        return self.client.get(self.path)
+
     def post_genre(self, genre):
         return self.client.post(self.path, genre.to_json())
