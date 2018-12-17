@@ -1,13 +1,12 @@
 import requests
 
-from constants import BASE_URL
-
 class ReadingQuantifiedClient(object):
     """
     The client is responsible for making calls to the Reading Quantified Server APIs.
     """
 
-    def __init__(self, username, password):
+    def __init__(self, base_url, username, password):
+        self.base_url = base_url
         self.username = username
         self.password = password
 
@@ -25,7 +24,7 @@ class ReadingQuantifiedClient(object):
             'password': self.password
         }
 
-        r = requests.post(BASE_URL + '/api/token/', data=data)
+        r = requests.post(self.base_url + '/api/token/', data=data)
         self.refresh_token = r.json()['refresh']
         self.access_token = r.json()['access']
 
@@ -39,7 +38,7 @@ class ReadingQuantifiedClient(object):
             'refresh': self.refresh_token
         }
 
-        r = requests.post(BASE_URL + '/api/token/refresh/', data=data)
+        r = requests.post(self.base_url + '/api/token/refresh/', data=data)
         self.access_token = r.json()['access']
 
 
@@ -58,7 +57,7 @@ class ReadingQuantifiedClient(object):
         Make a GET request.
         """
         try:
-            r = requests.get(BASE_URL + path, headers=self.make_authorization_header())
+            r = requests.get(self.base_url + path, headers=self.make_authorization_header())
             r.raise_for_status()
         except requests.exceptions.RequestException as e:
             return "Error: " + str(e)
@@ -71,7 +70,7 @@ class ReadingQuantifiedClient(object):
         Make a POST request.
         """
         try:
-            r = requests.post(BASE_URL + path, data=data, headers=self.make_authorization_header())
+            r = requests.post(self.base_url + path, data=data, headers=self.make_authorization_header())
             r.raise_for_status()
         except requests.exceptions.RequestException as e:
             return "Error: " + str(e)

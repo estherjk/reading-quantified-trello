@@ -20,7 +20,7 @@ board = trello_client.get_board(constants.BOARD_ID)
 labels = board.get_labels()
 
 # Reading Quantified Client
-reading_quantified_client = ReadingQuantifiedClient(os.getenv('USERNAME'), os.getenv('PASSWORD'))
+reading_quantified_client = ReadingQuantifiedClient(os.getenv('BASE_URL'), os.getenv('USERNAME'), os.getenv('PASSWORD'))
 book_endpoints = BookEndpoints(reading_quantified_client)
 genre_endpoints = GenreEndpoints(reading_quantified_client)
 
