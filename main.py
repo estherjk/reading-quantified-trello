@@ -29,6 +29,8 @@ existing_genres = genre_endpoints.get_genres()
 trello_ids = [ genre['trello_id'] for genre in existing_genres ]
 
 # Add label as Genre item
+print('Adding new genres...')
+
 for label in labels:
     if label.id not in trello_ids:
         print(label)
@@ -39,11 +41,15 @@ for label in labels:
         response = genre_endpoints.post_genre(genre)
         print(response)
 
+print('Done.')
+
 # Get all books that exist in Reading Quantified
 existing_books = book_endpoints.get_books()
 trello_ids = [ book['trello_id'] for book in existing_books ]
 
 # Add a book to Reading Quantified
+print('Adding new books...')
+
 for card in cards_in_finished_list:
     date_started = parse.get_date_started(card)
     date_finished = parse.get_date_finished(card)
@@ -59,3 +65,5 @@ for card in cards_in_finished_list:
         )
         response = book_endpoints.post_book(book)
         print(response)
+
+print('Done.')
