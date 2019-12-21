@@ -1,4 +1,6 @@
-# Helper functions that parse desired information from Trello cards (aka books)
+"""
+Helper functions that parse desired information from Trello cards (aka books).
+"""
 
 def get_created_action(card):
     """
@@ -40,7 +42,7 @@ def get_list_change_date(card, list_before_name, list_after_name):
 
 def get_date_started(card):
     """
-    Return the date when a book (card) was started, i.e. moved to or created in the 'Reading' list
+    Return the date when a book (card) was started, i.e. moved to or created in the 'Reading' list.
     """
     return get_date_created_in_list(card, 'Reading') or \
         get_list_change_date(card, 'To Read', 'Reading') or \
@@ -49,6 +51,6 @@ def get_date_started(card):
 
 def get_date_finished(card):
     """
-    Return the date when a book (card) was finished, i.e. moved from the 'Reading' to the 'Finished' list
+    Return the date when a book (card) was finished, i.e. moved from the 'Reading' to the 'Finished' list.
     """
     return get_list_change_date(card, 'Reading', 'Finished')

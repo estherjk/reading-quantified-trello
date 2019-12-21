@@ -1,12 +1,16 @@
-import constants
-import os
-import parse
-import time
-
-from book import Book, BookEndpoints, Genre, GenreEndpoints
-from client import ReadingQuantifiedClient
 from dotenv import load_dotenv
 from trello import TrelloClient
+
+import os
+import time
+
+# This project's imports
+
+from books.book import Book, BookEndpoints, Genre, GenreEndpoints
+from books.client import ReadingQuantifiedClient
+
+import books.constants as constants
+import books.parse as parse
 
 load_dotenv()
 
