@@ -75,13 +75,14 @@ for card in cards_in_finished_list:
     )
     
     if date_started and date_finished:
-        print(card)
         if card.id not in trello_ids:
             print('Adding book...')
+            print(card)
             response = book_endpoints.post_book(book)
             print(response)
         else:
             # Existing books are missing cover attachment info... let's add it.
+            # TODO: Updating books should be more generic?
             data = book_endpoints.get_books(query_params={'trello_id': card.id})
             if not data[0]['cover_attachment'] and cover_attachment:
                 print('Updating book...')
