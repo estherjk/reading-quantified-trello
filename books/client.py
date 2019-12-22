@@ -79,7 +79,7 @@ class ReadingQuantifiedClient(object):
 
     def put(self, url, data, custom_url=None):
         """
-        Make a PUT request. An URL instead of a path must be specifiedd.
+        Make a PUT request. An URL instead of a path must be specified.
         """
         try:
             r = requests.put(url, data=data, headers=self.make_authorization_header())
