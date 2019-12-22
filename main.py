@@ -64,22 +64,28 @@ for card in cards_in_finished_list:
 
     # The cards have been filtered for just the cover attachment, but it's stored in a list.
     cover_attachment = card.attachments[0] if card.attachments else {}
+
+    book = Book(
+        card.name,
+        card.id,
+        date_started,
+        date_finished,
+        genres=card.idLabels,
+        cover_attachment=cover_attachment
+    )
     
     if date_started and date_finished:
         print(card)
         if card.id not in trello_ids:
             print('Adding book...')
-            book = Book(
-                card.name,
-                card.id,
-                date_started,
-                date_finished,
-                genres=card.idLabels,
-                cover_attachment=cover_attachment
-            )
             response = book_endpoints.post_book(book)
             print(response)
         else:
-            print('Updating book...')
-            # TODO: Add ability to update an existing book
+            # Existing books are missing cover attachment info... let's add it.
+            data = book_endpoints.get_books(query_params={'trello_id': card.id})
+            if not data[0]['cover_attachment'] and cover_attachment:
+                print('Updating book...')
+                response = book_endpoints.put_book(data[0]['url'], book)
+                print(response)
+
 print('Done.')

@@ -39,8 +39,8 @@ class BookEndpoints(object):
         self.client = client
 
 
-    def get_books(self):
-        return self.client.get(self.path)
+    def get_books(self, query_params={}):
+        return self.client.get(self.path, query_params=query_params)
 
     
     def get_book_by_id(self, id):
@@ -49,6 +49,12 @@ class BookEndpoints(object):
 
     def post_book(self, book):
         return self.client.post(self.path, book.to_json())
+
+    def put_book(self, url, book):
+        """
+        Update book with a PUT request. Note: URL with ID must be specified.
+        """
+        return self.client.put(url, book.to_json())
 
 
 class Genre(object):

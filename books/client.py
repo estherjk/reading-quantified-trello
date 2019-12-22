@@ -52,12 +52,12 @@ class ReadingQuantifiedClient(object):
         }
 
 
-    def get(self, path):
+    def get(self, path, query_params={}):
         """
         Make a GET request.
         """
         try:
-            r = requests.get(self.base_url + path, headers=self.make_authorization_header())
+            r = requests.get(self.base_url + path, headers=self.make_authorization_header(), params=query_params)
             r.raise_for_status()
         except requests.exceptions.RequestException as e:
             return "Error: " + str(e)
@@ -71,6 +71,18 @@ class ReadingQuantifiedClient(object):
         """
         try:
             r = requests.post(self.base_url + path, data=data, headers=self.make_authorization_header())
+            r.raise_for_status()
+        except requests.exceptions.RequestException as e:
+            return "Error: " + str(e)
+
+        return r
+
+    def put(self, url, data, custom_url=None):
+        """
+        Make a PUT request. An URL instead of a path must be specifiedd.
+        """
+        try:
+            r = requests.put(url, data=data, headers=self.make_authorization_header())
             r.raise_for_status()
         except requests.exceptions.RequestException as e:
             return "Error: " + str(e)
