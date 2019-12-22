@@ -1,8 +1,10 @@
+import json
+
 class Book(object):
     """
     Class representing a Book object.
     """
-    def __init__(self, title, trello_id, date_started, date_finished, genres=[]):
+    def __init__(self, title, trello_id, date_started, date_finished, genres=[], cover_attachment={}):
         self.title = title
         self.trello_id = trello_id
         self.date_started = date_started
@@ -10,7 +12,10 @@ class Book(object):
 
         # This should be an array of trello label IDs
         self.genres = genres
-        
+
+        # This should be a card's cover attachment info
+        # See https://developers.trello.com/reference#cardsidattachments
+        self.cover_attachment = cover_attachment
 
     def to_json(self):
         return {
@@ -18,7 +23,8 @@ class Book(object):
             'trello_id': self.trello_id,
             'date_started': self.date_started,
             'date_finished': self.date_finished,
-            'genres': self.genres
+            'genres': self.genres,
+            'cover_attachment': json.dumps(self.cover_attachment)
         }
   
 
