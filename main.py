@@ -80,13 +80,14 @@ for card in cards_in_finished_list:
             print(card)
             response = book_endpoints.post_book(book)
             print(response)
-        else:
-            # Existing books are missing cover attachment info... let's add it.
-            # TODO: Updating books should be more generic?
-            data = book_endpoints.get_books(query_params={'trello_id': card.id})
-            if not data[0]['cover_attachment'] and cover_attachment:
-                print('Updating book...')
-                response = book_endpoints.put_book(data[0]['url'], book)
-                print(response)
+        # Comment out for now... queries the server a lot
+        # else:
+        #     # Existing books are missing cover attachment info... let's add it.
+        #     # TODO: Updating books should be more generic?
+        #     data = book_endpoints.get_books(query_params={'trello_id': card.id})
+        #     if not data[0]['cover_attachment'] and cover_attachment:
+        #         print('Updating book...')
+        #         response = book_endpoints.put_book(data[0]['url'], book)
+        #         print(response)
 
 print('Done.')
