@@ -6,8 +6,9 @@ import time
 
 # ## This project's imports
 
-from books.book import Book, BookEndpoints, Genre, GenreEndpoints
+from books.book import BookEndpoints, GenreEndpoints
 from books.client import ReadingQuantifiedClient
+from books.models import Book, Genre
 
 import books.constants as constants
 import books.util as util
@@ -46,7 +47,8 @@ for label in labels:
         print(label)
         genre = Genre(
             label.name,
-            label.id
+            label.id,
+            color=label.color
         )
         response = genre_endpoints.post_genre(genre)
         print(response)
