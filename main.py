@@ -10,7 +10,7 @@ from books.book import Book, BookEndpoints, Genre, GenreEndpoints
 from books.client import ReadingQuantifiedClient
 
 import books.constants as constants
-import books.parse as parse
+import books.util as util
 
 load_dotenv()
 
@@ -59,8 +59,8 @@ trello_ids = [ book['trello_id'] for book in existing_books ]
 # Add books to Reading Quantified
 print('Adding new books...')
 for card in cards_in_finished_list:
-    date_started = parse.get_date_started(card)
-    date_finished = parse.get_date_finished(card)
+    date_started = util.get_date_started(card)
+    date_finished = util.get_date_finished(card)
 
     # The cards have been filtered for just the cover attachment, but it's stored in a list.
     cover_attachment = card.attachments[0] if card.attachments else {}
