@@ -1,6 +1,6 @@
 import requests
 
-class ReadingQuantifiedClient(object):
+class ReadingQuantifiedClient:
     """
     The client is responsible for making calls to the Reading Quantified Server APIs.
     """
@@ -52,12 +52,12 @@ class ReadingQuantifiedClient(object):
         }
 
 
-    def get(self, path, query_params={}):
+    def get(self, url, query_params={}):
         """
         Make a GET request.
         """
         try:
-            r = requests.get(self.base_url + path, headers=self.make_authorization_header(), params=query_params)
+            r = requests.get(url, headers=self.make_authorization_header(), params=query_params)
             r.raise_for_status()
         except requests.exceptions.RequestException as e:
             return "Error: " + str(e)
@@ -65,12 +65,12 @@ class ReadingQuantifiedClient(object):
         return r.json()
 
 
-    def post(self, path, data):
+    def post(self, url, data):
         """
         Make a POST request.
         """
         try:
-            r = requests.post(self.base_url + path, data=data, headers=self.make_authorization_header())
+            r = requests.post(url, data=data, headers=self.make_authorization_header())
             r.raise_for_status()
         except requests.exceptions.RequestException as e:
             return "Error: " + str(e)
@@ -79,7 +79,7 @@ class ReadingQuantifiedClient(object):
 
     def put(self, url, data, custom_url=None):
         """
-        Make a PUT request. An URL instead of a path must be specified.
+        Make a PUT request.
         """
         try:
             r = requests.put(url, data=data, headers=self.make_authorization_header())
@@ -88,3 +88,34 @@ class ReadingQuantifiedClient(object):
             return "Error: " + str(e)
 
         return r
+
+    def get_books(self, query_params={}):
+        """
+        Return all books on the Reading Quantified Server.
+        """
+        return self.get(self.base_url + '/api/books/', query_params=query_params)
+
+    def add_book(self, book):
+        """
+        Add a book to the Reading Quantified Server.
+        """
+        return self.post(self.base_url + '/api/books/', book.to_json())
+
+    def update_book(self, url, book):
+        """
+        Update an existing book on the Reading Quantified Server.
+        Note: The server uses an `url` field instead of the primary key field to represent relationships. Pass the URL instead of an ID.
+        """
+        return self.put(url, book.to_json())
+
+    def get_genres(self, query_params={}):
+        """
+        Return all genres on the Reading Quantified Server.
+        """
+        return self.get(self.base_url + '/api/genres/')
+
+    def add_genre(self, genre):
+        """
+        Add a genre to the Reading Quantified Server.
+        """
+        return self.post(self.base_url + '/api/genres/', genre.to_json())

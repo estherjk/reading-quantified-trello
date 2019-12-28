@@ -6,7 +6,6 @@ import time
 
 # ## This project's imports
 
-from books.book import BookEndpoints, GenreEndpoints
 from books.client import ReadingQuantifiedClient
 from books.models import Book, Genre
 
@@ -33,11 +32,9 @@ cards_in_finished_list = finished_list.list_cards(
 # ## Reading Quantified Client
 
 reading_quantified_client = ReadingQuantifiedClient(os.getenv('BASE_URL'), os.getenv('USERNAME'), os.getenv('PASSWORD'))
-book_endpoints = BookEndpoints(reading_quantified_client)
-genre_endpoints = GenreEndpoints(reading_quantified_client)
 
 # Get all genres that exist in Reading Quantified
-existing_genres = genre_endpoints.get_genres()
+existing_genres = reading_quantified_client.get_genres()
 trello_ids = [ genre['trello_id'] for genre in existing_genres ]
 
 # Add label as Genre item
@@ -50,12 +47,12 @@ for label in labels:
             label.id,
             color=label.color
         )
-        response = genre_endpoints.post_genre(genre)
+        response = reading_quantified_client.add_genre(genre)
         print(response)
 print('Done.')
 
 # Get all books that exist in Reading Quantified
-existing_books = book_endpoints.get_books()
+existing_books = reading_quantified_client.get_books()
 trello_ids = [ book['trello_id'] for book in existing_books ]
 
 # Add books to Reading Quantified
@@ -80,7 +77,7 @@ for card in cards_in_finished_list:
         if card.id not in trello_ids:
             print('Adding book...')
             print(card)
-            response = book_endpoints.post_book(book)
+            response = reading_quantified_client.add_book(book)
             print(response)
         # Comment out for now... queries the server a lot
         # else:
