@@ -37,6 +37,11 @@ class Genre:
         self.trello_id = trello_id
         self.color = color
 
+    def __eq__(self, other):
+        return self.name == other.name and \
+            self.trello_id == other.trello_id and \
+            self.color == other.color
+
     def to_json(self):
         return {
             'name': self.name,

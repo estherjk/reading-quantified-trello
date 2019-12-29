@@ -27,17 +27,27 @@ def sync_genres(trello_client, reading_quantified_client):
 
     print('Syncing genres...')
     for label in labels:
+        genre = Genre(
+            label.name,
+            label.id,
+            color=label.color
+        )
+
         if label.id in trello_ids:
-            # TODO: Update existing genre
-            pass
+            orig = next(genre for genre in existing_genres if genre['trello_id'] == label.id)
+            existing_genre = Genre(
+                orig['name'],
+                orig['trello_id'],
+                color=orig['color']
+            )
+
+            if existing_genre != genre:
+                print('Updating existing genre...')
+                print(label)
+                response = reading_quantified_client.update_genre(orig['url'], genre)
         else:
             print('Adding new genre...')
             print(label)
-            genre = Genre(
-                label.name,
-                label.id,
-                color=label.color
-            )
             response = reading_quantified_client.add_genre(genre)
             print(response)
     print('Done.')
@@ -77,8 +87,13 @@ def sync_books(trello_client, reading_quantified_client):
         
         if date_started and date_finished:
             if card.id in trello_ids:
-                # TODO: Update existing book
-                pass
+                orig = next(book for book in existing_books if book['trello_id'] == card.id)
+
+                # Update if certain attributes are different...
+                if orig['title'] != card.name or set(orig['genres']) != set(card.idLabels) or orig['cover_attachment'] != cover_attachment:
+                    print('Updating existing book...')
+                    print(card)
+                    response = reading_quantified_client.update_book(orig['url'], book)
             else:
                 print('Adding book...')
                 print(card)

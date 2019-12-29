@@ -119,3 +119,10 @@ class ReadingQuantifiedClient:
         Add a genre to the Reading Quantified Server.
         """
         return self.post(self.base_url + '/api/genres/', genre.to_json())
+
+    def update_genre(self, url, genre):
+        """
+        Update an existing genre on the Reading Quantified Server.
+        Note: The server uses an `url` field instead of the primary key field to represent relationships. Pass the URL instead of an ID.
+        """
+        return self.put(url, genre.to_json())
