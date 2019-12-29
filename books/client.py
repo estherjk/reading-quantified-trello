@@ -112,7 +112,7 @@ class ReadingQuantifiedClient:
         """
         Return all genres on the Reading Quantified Server.
         """
-        return self.get(self.base_url + '/api/genres/')
+        return self.get(self.base_url + '/api/genres/', query_params=query_params)
 
     def add_genre(self, genre):
         """
