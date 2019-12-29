@@ -77,7 +77,7 @@ class ReadingQuantifiedClient:
 
         return r
 
-    def put(self, url, data, custom_url=None):
+    def put(self, url, data):
         """
         Make a PUT request.
         """
