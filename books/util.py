@@ -54,3 +54,13 @@ def get_date_finished(card):
     Return the date when a book (card) was finished, i.e. moved from the 'Reading' to the 'Finished' list.
     """
     return get_list_change_date(card, 'Reading', 'Finished')
+
+
+def remove_cover_attachment_previews(cover_attachment):
+    """
+    Remove the previews element from cover_attachment. It contains a lot of data. Then, return.
+    """
+
+    del cover_attachment["previews"]
+
+    return cover_attachment

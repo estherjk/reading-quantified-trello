@@ -75,6 +75,7 @@ def sync_books(trello_client, reading_quantified_client):
 
         # The cards have been filtered for just the cover attachment, but it's stored in a list.
         cover_attachment = card.attachments[0] if card.attachments else {}
+        cover_attachment = util.remove_cover_attachment_previews(cover_attachment)
 
         book = Book(
             card.name,

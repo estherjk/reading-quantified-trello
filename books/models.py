@@ -14,7 +14,6 @@ class Book:
         self.genres = genres
 
         # This should be a card's cover attachment info
-        # See https://developers.trello.com/reference#cardsidattachments
         self.cover_attachment = cover_attachment
 
     def to_json(self):
