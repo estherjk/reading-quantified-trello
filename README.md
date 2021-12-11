@@ -23,5 +23,5 @@ git push heroku master
 To run on Heroku:
 
 ```bash
-heroku run python main.py
+heroku run -a reading-quantified-trello python main.py
 ```
